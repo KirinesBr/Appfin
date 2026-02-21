@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/584/584026.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Controle Certo</title>
+</head>
+<body>
+    <header class="ios-header">
+        <h1 id="header-title">Início</h1>
+        <div class="header-actions">
+            <button onclick="abrirModal('receita')" class="btn-primary">+ Receita</button>
+            <button onclick="abrirModal('despesa')" class="btn-danger">+ Despesa</button>
+        </div>
+    </header>
+
+    <nav class="ios-month-filter">
+        <button class="filter-nav" onclick="alterarMes(-1)"><i class="fas fa-chevron-left"></i></button>
+        <div class="current-month-display"><span id="label-mes-ano">Fevereiro 2026</span></div>
+        <button class="filter-nav" onclick="alterarMes(1)"><i class="fas fa-chevron-right"></i></button>
+    </nav>
+
+    <main id="app-content">
+        <section id="tab-inicio" class="tab-content active">
+            <div class="card balance-card">
+                <h2>Resultado do Mês</h2>
+                <h3 id="resultado-mes">R$ 0,00</h3>
+                <div class="balance-details">
+                    <div class="detail green">Receitas: <span id="total-receitas">R$ 0,00</span></div>
+                    <div class="detail red">Despesas: <span id="total-despesas">R$ 0,00</span></div>
+                </div>
+            </div>
+            <div class="card chart-container"><canvas id="monthlyChart"></canvas></div>
+        </section>
+        <section id="tab-transacoes" class="tab-content"></section>
+        <section id="tab-config" class="tab-content">
+            <div class="card">
+                <button class="btn-primary full-width" onclick="exportarTransacoesCSV()">Exportar CSV</button>
+                <button class="btn-danger full-width" style="margin-top:10px" onclick="zerarLancamentos()">Zerar Dados</button>
+            </div>
+        </section>
+    </main>
+
+    <nav class="ios-bottom-nav">
+        <div class="nav-item active" onclick="switchTab('inicio', this)"><i class="fas fa-home"></i><span>Início</span></div>
+        <div class="nav-item" onclick="switchTab('transacoes', this)"><i class="fas fa-list"></i><span>Transações</span></div>
+        <div class="nav-item" onclick="switchTab('config', this)"><i class="fas fa-cog"></i><span>Ajustes</span></div>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
+</html>

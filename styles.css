@@ -1,0 +1,15 @@
+:root { --bg-color: #F2F2F7; --ios-blue: #007AFF; --ios-green: #34C759; --ios-red: #FF3B30; }
+body { background: var(--bg-color); font-family: -apple-system, system-ui; margin: 0; padding: 0; user-select: none; }
+.ios-header { padding: env(safe-area-inset-top) 16px 10px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
+.card { background: white; border-radius: 12px; padding: 16px; margin: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.balance-card { text-align: center; }
+.balance-card h3 { font-size: 32px; margin: 10px 0; }
+.ios-bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding-bottom: env(safe-area-inset-bottom); border-top: 0.5px solid #ccc; }
+.nav-item { padding: 10px; text-align: center; color: #8E8E93; font-size: 10px; }
+.nav-item.active { color: var(--ios-blue); }
+.btn-primary { background: var(--ios-blue); color: white; border: none; border-radius: 8px; padding: 8px 15px; font-weight: bold; }
+.btn-danger { background: var(--ios-red); color: white; border: none; border-radius: 8px; padding: 8px 15px; font-weight: bold; }
+.full-width { width: 100%; display: block; }
+.tab-content { display: none; padding-bottom: 80px; }
+.tab-content.active { display: block; }
+.ios-month-filter { display: flex; justify-content: space-between; padding: 10px 16px; background: white; border-bottom: 0.5px solid #ccc; }
