@@ -10,48 +10,77 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Controle Certo</title>
+    <title>Financeiro Pro</title>
 </head>
 <body>
     <header class="ios-header">
-        <h1 id="header-title">Início</h1>
-        <div class="header-actions">
-            <button onclick="abrirModal('receita')" class="btn-primary">+ Receita</button>
-            <button onclick="abrirModal('despesa')" class="btn-danger">+ Despesa</button>
+        <div class="header-top">
+            <span id="label-mes-ano">Fevereiro 2026</span>
+            <div class="header-nav-btns">
+                <button onclick="alterarMes(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="alterarMes(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
         </div>
+        <h1>Visão Geral</h1>
     </header>
-
-    <nav class="ios-month-filter">
-        <button class="filter-nav" onclick="alterarMes(-1)"><i class="fas fa-chevron-left"></i></button>
-        <div class="current-month-display"><span id="label-mes-ano">Fevereiro 2026</span></div>
-        <button class="filter-nav" onclick="alterarMes(1)"><i class="fas fa-chevron-right"></i></button>
-    </nav>
 
     <main id="app-content">
         <section id="tab-inicio" class="tab-content active">
-            <div class="card balance-card">
-                <h2>Resultado do Mês</h2>
-                <h3 id="resultado-mes">R$ 0,00</h3>
-                <div class="balance-details">
-                    <div class="detail green">Receitas: <span id="total-receitas">R$ 0,00</span></div>
-                    <div class="detail red">Despesas: <span id="total-despesas">R$ 0,00</span></div>
+            <div class="summary-card">
+                <div class="main-balance">
+                    <span>Saldo Disponível</span>
+                    <h2 id="resultado-mes">R$ 0,00</h2>
+                </div>
+                <div class="balance-row">
+                    <div class="b-item"><i class="fas fa-arrow-up"></i> <span id="total-receitas">R$ 0,00</span></div>
+                    <div class="b-item"><i class="fas fa-arrow-down"></i> <span id="total-despesas">R$ 0,00</span></div>
                 </div>
             </div>
-            <div class="card chart-container"><canvas id="monthlyChart"></canvas></div>
+            
+            <div class="action-grid">
+                <button class="action-btn inc" onclick="abrirModalAdd('receita')"><i class="fas fa-plus"></i> Receita</button>
+                <button class="action-btn exp" onclick="abrirModalAdd('despesa')"><i class="fas fa-minus"></i> Despesa</button>
+            </div>
+
+            <div class="card chart-card"><canvas id="monthlyChart"></canvas></div>
+            <div id="lista-faturas-resumo"></div>
         </section>
-        <section id="tab-transacoes" class="tab-content"></section>
+
+        <section id="tab-transacoes" class="tab-content">
+            <h2 class="section-title">Histórico</h2>
+            <div id="lista-transacoes-container"></div>
+        </section>
+
+        <section id="tab-carteira" class="tab-content">
+            <h2 class="section-title">Meus Cartões</h2>
+            <div id="lista-cartoes-config"></div>
+            <button class="add-config-btn" onclick="addNovoCartao()">+ Adicionar Cartão</button>
+
+            <h2 class="section-title" style="margin-top:30px">Minhas Contas</h2>
+            <div id="lista-contas-config"></div>
+            <button class="add-config-btn" onclick="addNovaConta()">+ Adicionar Conta</button>
+        </section>
+
         <section id="tab-config" class="tab-content">
-            <div class="card">
-                <button class="btn-primary full-width" onclick="exportarTransacoesCSV()">Exportar CSV</button>
-                <button class="btn-danger full-width" style="margin-top:10px" onclick="zerarLancamentos()">Zerar Dados</button>
+            <h2 class="section-title">Configurações</h2>
+            <div class="ios-list">
+                <div class="ios-list-item" onclick="exportarTransacoesCSV()">
+                    <span>Exportar para Excel (CSV)</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="ios-list-item danger" onclick="zerarLancamentos()">
+                    <span>Limpar Todos os Dados</span>
+                    <i class="fas fa-trash"></i>
+                </div>
             </div>
         </section>
     </main>
 
-    <nav class="ios-bottom-nav">
-        <div class="nav-item active" onclick="switchTab('inicio', this)"><i class="fas fa-home"></i><span>Início</span></div>
-        <div class="nav-item" onclick="switchTab('transacoes', this)"><i class="fas fa-list"></i><span>Transações</span></div>
-        <div class="nav-item" onclick="switchTab('config', this)"><i class="fas fa-cog"></i><span>Ajustes</span></div>
+    <nav class="ios-tab-bar">
+        <div class="tab-item active" onclick="switchTab('inicio', this)"><i class="fas fa-house"></i><span>Início</span></div>
+        <div class="tab-item" onclick="switchTab('transacoes', this)"><i class="fas fa-list-ul"></i><span>Extrato</span></div>
+        <div class="tab-item" onclick="switchTab('carteira', this)"><i class="fas fa-wallet"></i><span>Carteira</span></div>
+        <div class="tab-item" onclick="switchTab('config', this)"><i class="fas fa-gear"></i><span>Ajustes</span></div>
     </nav>
 
     <script src="app.js"></script>
