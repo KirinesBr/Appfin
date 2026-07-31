@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id             String    @id @default(cuid())
+  name           String
+  account_type   AccountType
+  bank           String?
+  initial_balance Float   @default(0)
+  color          String?
+  icon           String?
+  is_active      Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  transactions   Transaction[] @relation("account_transactions")
+  linkedCards    CreditCard[]   @relation("account_linked_cards")
+}
+
+enum AccountType {
+  checking
+  savings
+  wallet
+  investment
+}
+
+model Category {
+  id           String     @id @default(cuid())
+  name         String
+  category_type CategoryType
+  icon         String?
+  color        String?
+  parent_id    String?
+  budget_limit Float? 
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  transactions Transaction[]
+}
+
+enum CategoryType {
+  income
+  expense
+}
+
+model CreditCard {
+  id                String    @id @default(cuid())
+  name              String
+  brand             CardBrand
+  card_limit        Float
+  closing_day       Int
+  due_day           Int
+  color             String?
+  linked_account_id String?
+  is_active         Boolean   @default(true)
+  sort_order        Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  transactions      Transaction[] 
+  linked_account    Account? @relation("account_linked_cards", fields: [linked_account_id], references: [id])
+}
+
+enum CardBrand {
+  visa
+  mastercard
+  elo
+  amex
+  hipercard
+  other
+}
+
+model Transaction {
+  id                    String    @id @default(cuid())
+  description           String
+  amount                Float
+  transaction_type      TransactionType
+  date                  DateTime
+  category_id           String?
+  account_id            String?
+  credit_card_id        String?
+  is_paid               Boolean   @default(false)
+  is_recurring          Boolean   @default(false)
+  recurring_frequency   RecurringFrequency?
+  recurring_end_date    DateTime?
+  is_installment        Boolean   @default(false)
+  installment_number    Int?
+  total_installments    Int?
+  installment_group_id  String?
+  transfer_to_account_id String?
+  notes                 String?
+  tags                  String[]  @default([])
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  category  Category? @relation(fields: [category_id], references: [id])
+  account   Account?  @relation("account_transactions", fields: [account_id], references: [id])
+  creditCard CreditCard? @relation(fields: [credit_card_id], references: [id])
+}
+
+enum TransactionType {
+  income
+  expense
+  transfer
+}
+
+enum RecurringFrequency {
+  weekly
+  monthly
+  yearly
+}
